@@ -1,4 +1,4 @@
-package com.pavlitz.pillar_client;
+package com.pavlitz.pillar_client.services;
 
 import java.sql.Date;
 

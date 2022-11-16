@@ -15,31 +15,13 @@ import java.util.Arrays;
 @SpringBootApplication
 public class PillarClientApplication {
 
-    private final Logger log = LoggerFactory.getLogger(PillarClientApplication.class);
 
-    private RestTemplate restTemplate = new RestTemplate();
 
-    private final String URL = "http://localhost:8070/answer";
+
 
     public static void main(String[] args) {
         SpringApplication.run(PillarClientApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner run() throws Exception {
-        return args -> {
-            //Creation
-//            Date d = Date.valueOf(LocalDate.now());
-//            Phrase p = new Phrase(d, "some answer", "some type");
-//            restTemplate.postForObject(URL+"/", p, Phrase.class);
-//            log.info("maybe sent");
-
-            //get all
-//            Phrase[] arr = restTemplate.getForObject(URL + "/listData", Phrase[].class);
-//            log.info(Arrays.toString(arr));
-
-
-        };
-    }
 
 }

@@ -1,15 +1,11 @@
 package com.pavlitz.pillar_client.forms;
 
 import com.pavlitz.pillar_client.mainView.ViewController;
-import com.vaadin.flow.component.Text;
+import com.pavlitz.pillar_client.notifications.NotificationFactory;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -35,7 +31,6 @@ public class AnswerForm extends VerticalLayout {
 
 
     public AnswerForm(ViewController viewController) {
-
         this.viewController = viewController;
         this.counter = 0;
         task = taskLabel();
@@ -45,45 +40,8 @@ public class AnswerForm extends VerticalLayout {
         confirm = createConfirm();
         HorizontalLayout layout = new HorizontalLayout(sent, cancel,confirm);
         this.add(task, textArea, layout);
-        errorNot = createErrorNotification();
-        successNot = createSuccessNotification();
-    }
-
-    private Notification createSuccessNotification(){
-        Notification notification = new Notification();
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-        Div text = new Div(new Text("Answer submitted"));
-        Button closeButton = new Button(new Icon("lumo", "cross"));
-        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        closeButton.getElement().setAttribute("aria-label", "Close");
-        closeButton.addClickListener(event -> {
-            notification.close();
-        });
-        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-        layout.setAlignItems(Alignment.CENTER);
-        notification.add(layout);
-        notification.setDuration(3000);
-//        notification.setPosition(Notification.Position.MIDDLE);
-        return notification;
-    }
-
-
-    private Notification createErrorNotification(){
-        Notification notification = new Notification();
-        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-        Div text = new Div(new Text("Text must be longer then 5 symbols"));
-        Button closeButton = new Button(new Icon("lumo", "cross"));
-        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-        closeButton.getElement().setAttribute("aria-label", "Close");
-        closeButton.addClickListener(event -> {
-            notification.close();
-        });
-        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-        layout.setAlignItems(Alignment.CENTER);
-        notification.add(layout);
-        notification.setDuration(3000);
-//        notification.setPosition(Notification.Position.MIDDLE);
-        return notification;
+        errorNot = NotificationFactory.alert("Text must be longer then 5 symbols");
+        successNot = NotificationFactory.alert("Answer submitted");
     }
 
     private Button createBtn(String name){
@@ -93,7 +51,7 @@ public class AnswerForm extends VerticalLayout {
     private Button createCancel(){
         Button b = createBtn("Cancel");
         b.addClickListener(buttonClickEvent -> {
-            viewController.hideTextArea();
+            viewController.showMainForm();
             textArea.setLabel("empty");
             textArea.setValue("");
             counter = 0;

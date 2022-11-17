@@ -5,12 +5,9 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
-import org.atmosphere.interceptor.AtmosphereResourceStateRecovery;
 
-import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 
 @SpringComponent
@@ -19,6 +16,7 @@ public class ButtonForm extends VerticalLayout {
     private final ViewController viewController;
 
     private Button awareness;
+    private Button responsibility;
     private Button reportBtn;
 
     public ButtonForm(ViewController viewController) {
@@ -40,20 +38,16 @@ public class ButtonForm extends VerticalLayout {
         }
 
         awareness = new Button(PillarType.AWARENESS.getName());
-
-//        ComponentEventListener<ClickEvent<Button>> c = new ComponentEventListener<ClickEvent<Button>>() {
-//            ButtonForm b = new ButtonForm();
-//            @Override
-//            public void onComponentEvent(ClickEvent<Button> buttonClickEvent) {
-//                b.add(new Button("sldkfj"));
-//            }
-//        };
-//        b.addClickListener(c);
         awareness.addClickListener(buttonClickEvent -> {
             this.viewController.showTextArea(PillarType.AWARENESS);
         });
-        this.add(awareness);
 
+
+        responsibility = new Button(PillarType.RESPONSIBILITY.getName());
+        responsibility.addClickListener(buttonClickEvent -> {
+            this.viewController.showTextArea(PillarType.RESPONSIBILITY);
+        });
+        this.add(awareness, responsibility);
 
 
     }

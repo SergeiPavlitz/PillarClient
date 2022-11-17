@@ -31,8 +31,7 @@ public class AnswerService implements RestService{
         Date d = Date.valueOf(LocalDate.now());
         Phrase p = new Phrase(d, answer, type);
         restTemplate.postForObject(URL + "/", p, Phrase.class);
-        log.info("maybe sent");
-        System.out.println("---answer was sended---");
+        log.info("---answer was sended---");
         //get all
 //            Phrase[] arr = restTemplate.getForObject(URL + "/listData", Phrase[].class);
 //            log.info(Arrays.toString(arr));

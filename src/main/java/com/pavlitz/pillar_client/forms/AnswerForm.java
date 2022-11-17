@@ -2,6 +2,7 @@ package com.pavlitz.pillar_client.forms;
 
 import com.pavlitz.pillar_client.mainView.ViewController;
 import com.pavlitz.pillar_client.notifications.NotificationFactory;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -41,7 +42,7 @@ public class AnswerForm extends VerticalLayout {
         HorizontalLayout layout = new HorizontalLayout(sent, cancel,confirm);
         this.add(task, textArea, layout);
         errorNot = NotificationFactory.alert("Text must be longer then 5 symbols");
-        successNot = NotificationFactory.alert("Answer submitted");
+        successNot = NotificationFactory.success("Answer submitted");
     }
 
     private Button createBtn(String name){
@@ -64,14 +65,7 @@ public class AnswerForm extends VerticalLayout {
         Button b = createBtn("Confirm");
         b.setDisableOnClick(true);
         b.addClickListener(buttonClickEvent -> {
-            if (textArea.getValue().isBlank() || textArea.getValue().length() < 6) {
-                errorNot.open();
-            }else{
-                viewController.confirmAnswer(textArea.getValue(), type.getType());
-                successNot.open();
-                textArea.setValue("");
-                sent.setText(String.valueOf(++counter));
-            }
+            sendPhrase();
             b.setEnabled(true);
         });
         return b;
@@ -88,7 +82,23 @@ public class AnswerForm extends VerticalLayout {
             e.getSource()
                     .setHelperText(e.getValue().length() + "/" + charLimit);
         });
+        textArea.addKeyUpListener(Key.ENTER, keyUpEvent -> {
+            confirm.setEnabled(false);
+            sendPhrase();
+            confirm.setEnabled(true);
+        });
         return textArea;
+    }
+
+    private void sendPhrase(){
+        if (textArea.getValue().isBlank() || textArea.getValue().length() < 6) {
+            errorNot.open();
+        }else{
+            viewController.confirmAnswer(textArea.getValue(), type.getType());
+            successNot.open();
+            textArea.setValue("");
+            sent.setText(String.valueOf(++counter));
+        }
     }
 
     private Label sendLabel(){

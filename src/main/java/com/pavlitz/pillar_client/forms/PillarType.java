@@ -1,7 +1,8 @@
 package com.pavlitz.pillar_client.forms;
 
 public enum PillarType {
-    AWARENESS("Осознанность","awareness", "Если я сегодня буду действовать на 5% осознаннее...");
+    AWARENESS("Осознанность","awareness", "Если я сегодня буду действовать на 5% осознаннее..."),
+    RESPONSIBILITY("Ответственность","responsibility", "Если я сегодня буду действовать на 5% ответственнее...");
 
     private final String name;
     private final String type;

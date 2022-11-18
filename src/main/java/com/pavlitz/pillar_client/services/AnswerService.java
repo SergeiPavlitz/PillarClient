@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class AnswerService implements RestService{
+public class AnswerService implements RestService {
 
     private final Logger log = LoggerFactory.getLogger(AnswerService.class);
 
@@ -26,39 +26,42 @@ public class AnswerService implements RestService{
     }
 
     @Override
-    public void postAnswer(String answer, String type) {
+    public boolean postAnswer(String answer, String type) {
 
-        Date d = Date.valueOf(LocalDate.now());
-        Phrase p = new Phrase(d, answer, type);
-        restTemplate.postForObject(URL + "/", p, Phrase.class);
-        log.info("---answer was sended---");
+        try {
+            Date d = Date.valueOf(LocalDate.now());
+            Phrase p = new Phrase(d, answer, type);
+            p = restTemplate.postForObject(URL + "/", p, Phrase.class);
+            return p != null;
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return false;
+        }
+
         //get all
 //            Phrase[] arr = restTemplate.getForObject(URL + "/listData", Phrase[].class);
 //            log.info(Arrays.toString(arr));
     }
 
     @Override
-    public List<Phrase> getWeeklyByType(String type){
-        Phrase[] list = restTemplate.getForObject(URL + "/?pillarTypeWeekly=" + type, Phrase[].class);
-        if (list == null) {
-            return new ArrayList<>();
+    public Phrase[] getWeeklyByType(String type) {
+        Phrase[] list = new Phrase[0];
+        try {
+            list = restTemplate.getForObject(URL + "/?pillarTypeWeekly=" + type, Phrase[].class);
+            return (list == null) ? new Phrase[0] : list;
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return new Phrase[0];
         }
-        return Arrays.asList(list);
     }
 
     @Override
-    public boolean checkConnection(){
+    public boolean checkConnection() {
         try {
             String response = restTemplate.getForObject(URL + "/getConnect", String.class);
-            if(response!=null && response.equals("connected")){
-                return true;
-            }else{
-                System.out.println("Connection refused");
-                return false;
-            }
+            return response != null && response.equals("connected");
         } catch (RestClientException e) {
             e.printStackTrace();
-            System.out.println("Connection refused");
             return false;
         }
     }

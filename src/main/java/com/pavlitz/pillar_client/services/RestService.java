@@ -3,7 +3,7 @@ package com.pavlitz.pillar_client.services;
 import java.util.List;
 
 public interface RestService {
-    void postAnswer(String answer, String type);
+    boolean postAnswer(String answer, String type);
     boolean checkConnection();
-    List<Phrase> getWeeklyByType(String type);
+    Phrase[] getWeeklyByType(String type);
 }

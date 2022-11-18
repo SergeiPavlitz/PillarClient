@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Route
@@ -44,7 +45,8 @@ public class MainView extends VerticalLayout implements ViewController {
     }
 
     private boolean checkConnection() {
-        return restService.checkConnection();
+        boolean b = restService.checkConnection();
+        return b;
     }
 
     @Override
@@ -75,6 +77,6 @@ public class MainView extends VerticalLayout implements ViewController {
 
     @Override
     public List<Phrase> getPhrasesForWeek(PillarType t) {
-        return restService.getWeeklyByType(t.getType());
+        return Arrays.asList(restService.getWeeklyByType(t.getType()));
     }
 }

@@ -21,11 +21,11 @@ public class ReportForm extends VerticalLayout{
     }
 
     private void fillGrid(List<Phrase> phrases){
+        remove(grid);
         grid = new Grid<>(Phrase.class);
         grid.setItems(phrases);
         grid.setColumns("creationDate", "answerBody", "pillarType");
         add(grid);
-        System.out.println("filled");
     }
 
     private HorizontalLayout btnBar() {

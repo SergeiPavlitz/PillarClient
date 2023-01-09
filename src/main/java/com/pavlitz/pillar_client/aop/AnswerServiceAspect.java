@@ -1,9 +1,8 @@
 package com.pavlitz.pillar_client.aop;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Aspect
@@ -68,6 +67,23 @@ public class AnswerServiceAspect {
         }
         return o;
     }
+
+    /**
+     * эдвайсы before / after работают внутри эдвайса around
+     * проверил, убедился.
+     */
+
+//    @Before("checkCon()")
+//    public void checkBeforeConnectionAdvice(JoinPoint joinPoint){
+//        String name = joinPoint.getSignature().getName();
+//        System.out.println("---before advice---"+name);
+//    }
+//
+//    @After("checkCon()")
+//    public void checkAfterConnectionAdvice(JoinPoint joinPoint){
+//        String name = joinPoint.getSignature().getName();
+//        System.out.println("---after advice---"+name);
+//    }
 
     @Around("weekly()")
     public Object getWeeklyByTypeAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
